@@ -1,17 +1,28 @@
-import 'package:equatable/equatable.dart';
-import 'package:pongis/models/player.dart';
+enum PlayerName { a, b }
 
-class Game extends Equatable {
-  static final Player _playerA = Player(playerName: PlayerName.a);
-  static final Player _playerB = Player(playerName: PlayerName.b);
+class Game {
+  int scoreA = 0;
+  int scoreB = 0;
 
-  Game() : super([_playerA, _playerB]);
+  Game() { print('[INFO] New game object'); }
 
-  void incrementScore(PlayerName playerName) => getPlayer(playerName).score++;
-  void decrementScore(PlayerName playerName) => getPlayer(playerName).score > 0
-    ? getPlayer(playerName).score--
-    : getPlayer(playerName).score = 0;
-  void resetGame() { _playerA.score = 0; _playerB.score = 0; }
-  Player getPlayer(PlayerName playerName) => playerName == PlayerName.a ? _playerA : _playerB;
+  static Game copyGame(Game game) {
+    Game _game = Game();
+    _game.scoreA = game.scoreA;
+    _game.scoreB = game.scoreB;
+    return _game;
+  }
 
+  void incrementScore(PlayerName playerName) => (playerName == PlayerName.a)
+    ? scoreA++
+    : scoreB++;
+  void decrementScore(PlayerName playerName) {
+    if (playerName == PlayerName.a) {
+      if (scoreA > 0) scoreA--;
+    } else {
+      if (scoreB > 0) scoreB--;
+    }
+  }
+  void resetGame() { scoreA = 0; scoreB = 0; }
+  int getScore(PlayerName playerName) => playerName == PlayerName.a ? scoreA : scoreB;
 }

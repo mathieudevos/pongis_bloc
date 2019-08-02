@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pongis/blocs/bloc/bloc.dart';
 import 'package:pongis/blocs/bloc/game_bloc.dart';
 import 'package:pongis/models/game.dart';
-import 'package:pongis/models/player.dart';
 
 class GamePage extends StatelessWidget {
   @override
@@ -12,7 +11,7 @@ class GamePage extends StatelessWidget {
 
     return BlocBuilder<GameBloc, Game>(
       builder: (context, game) {
-        print('game: ${game.getPlayer(PlayerName.a).score} - ${game.getPlayer(PlayerName.b).score} ');
+        print('game: ${game.getScore(PlayerName.a)} - ${game.getScore(PlayerName.b)} ');
         return Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
@@ -24,13 +23,13 @@ class GamePage extends StatelessWidget {
                   GestureDetector(
                     onTap: () => gameBloc.dispatch(GameEvent.incrementA),
                     onLongPress: () => gameBloc.dispatch(GameEvent.decrementA),
-                    child: Text(game.getPlayer(PlayerName.a).score.toString(), style: TextStyle(fontSize: 72))
+                    child: Text(game.getScore(PlayerName.a).toString(), style: TextStyle(fontSize: 72))
                   ),
                   VerticalDivider(),
                   GestureDetector(
                     onTap: () => gameBloc.dispatch(GameEvent.incrementB),
                     onLongPress: () => gameBloc.dispatch(GameEvent.decrementB),
-                    child: Text(game.getPlayer(PlayerName.b).score.toString(), style: TextStyle(fontSize: 72))
+                    child: Text(game.getScore(PlayerName.b).toString(), style: TextStyle(fontSize: 72))
                   ),
                 ],
               ),

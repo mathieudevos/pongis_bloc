@@ -1,37 +1,39 @@
 import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:pongis/models/game.dart';
-import 'package:pongis/models/player.dart';
 import './bloc.dart';
 
 class GameBloc extends Bloc<GameEvent, Game> {
-  final Game _game;
+  final Game _game = Game();
 
-  GameBloc({Game game}) : _game = game;
+  GameBloc();
 
   @override
   Game get initialState => _game..resetGame();
 
   @override
-  Stream<Game> mapEventToState(
-    GameEvent event,
-  ) async* {
+  Stream<Game> mapEventToState(GameEvent event) async* {
     print('Event called: $event');
     switch (event) {
       case GameEvent.resetGame:
-        yield _game..resetGame();
+        _game.resetGame();
+        yield Game.copyGame(_game);
         break;
       case GameEvent.incrementA:
-        yield _game..incrementScore(PlayerName.a);
+        _game.incrementScore(PlayerName.a);
+        yield Game.copyGame(_game);
         break;
       case GameEvent.incrementB:
-        yield _game..incrementScore(PlayerName.b);
+        _game.incrementScore(PlayerName.b);
+        yield Game.copyGame(_game);
         break;
       case GameEvent.decrementA:
-        yield _game..decrementScore(PlayerName.a);
+        _game.decrementScore(PlayerName.a);
+        yield Game.copyGame(_game);
         break;
       case GameEvent.decrementB:
-        yield _game..decrementScore(PlayerName.b);
+        _game.decrementScore(PlayerName.b);
+        yield Game.copyGame(_game);
         break;
       default:
         print('Did not understand event');
